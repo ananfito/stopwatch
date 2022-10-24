@@ -15,7 +15,7 @@ Photo by [Aron Visuals](https://unsplash.com/@aronvisuals) on [Unsplash](https:/
 
 ## Status
 
-A live version of this project can be viewed at https://ananfito.github.io/stopwatch/.
+This project is **NOT** complete and is still a work-in-progress. Check back later for the final version.
 
 ## Connect
 
