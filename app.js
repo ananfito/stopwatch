@@ -7,7 +7,7 @@ const resetBtn = document.querySelector('#resetBtn');
 
 let seconds = 0;
 let minutes = 0;
-let hours = 0
+let hours = 0;
 
 // Variables for leading zero
 
@@ -15,9 +15,16 @@ let leadingSeconds = 0;
 let leadingMinutes = 0;
 let leadingHours = 0;
 
+
+// Variables for set interval & timer status
+
+let timerInterval = null;
+let timerStatus = "stopped";
+
 // Stopwatch function
 
 function stopWatch() {
+  // start counting
   seconds++;
 
   if (seconds / 60 === 1) {
@@ -29,14 +36,52 @@ function stopWatch() {
       hours++;
     };
   };
-/*
+
+  // account for leading zero
   if (seconds < 10) {
     leadingSeconds = "0" + seconds.toString();
   } else {
     leadingSeconds = seconds;
   };
-*/
-  let displayTimer = document.getElementById('timer').innerText = hours + ":" + minutes + ":" seconds;
+
+  if (minutes < 10) {
+    leadingMinutes = "0" + minutes.toString();
+  } else {
+    leadingMinutes = minutes;
+  };
+
+  if (hours < 10) {
+    leadingHours = "0" + hours.toString();
+  } else {
+    leadingHours = hours;
+  };
+
+  let displayTimer = document.getElementById('timer').innerText = leadingHours + ":" + leadingMinutes + ":" + leadingSeconds;
 };
 
-window.setInterval(stopWatch, 1000); // can't get this to work see video at https://youtu.be/5fb2aPlgoys?t=7816
+// Start/Stop Button Function
+
+startStopBtn.addEventListener('click', function () {
+  if(timerStatus === "stopped") { // check timer status
+    timerInterval = window.setInterval(stopWatch, 1000); // start timer
+    document.getElementById('startStopBtn').innerHTML = `<i class="fa-solid fa-pause" id="pause"></i>`; // change button to `pause icon`
+    timerStatus = "started"; // update timer status
+  } else {
+    window.clearInterval(timerInterval); // stop timer
+    document.getElementById('startStopBtn').innerHTML = `<i class="fa-solid fa-play" id="play"></i>`; // change button to `play` icon
+    timerStatus = "stopped"; // update timer status
+  };
+});
+
+// Reset Button Function
+
+resetBtn.addEventListener('click', function () {
+  window.clearInterval(timerInterval); // stop the timer
+
+  // reset variables for seconds, minutes, hours
+  seconds = 0;
+  minutes = 0;
+  hours = 0;
+  
+  document.getElementById('timer').innerHTML = "00:00:00"; // update HTML to match timer status
+})
